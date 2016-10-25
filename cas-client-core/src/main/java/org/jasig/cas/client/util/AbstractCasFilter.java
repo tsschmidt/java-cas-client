@@ -58,6 +58,9 @@ public abstract class AbstractCasFilter extends AbstractConfigurationFilter {
     /** The exact url of the service. */
     private String service;
 
+    /** The scope of this authentication */
+    protected String scope;
+
     protected AbstractCasFilter(final Protocol protocol) {
         this.protocol = protocol;
     }
@@ -68,6 +71,7 @@ public abstract class AbstractCasFilter extends AbstractConfigurationFilter {
             setServerName(getString(ConfigurationKeys.SERVER_NAME));
             setService(getString(ConfigurationKeys.SERVICE));
             setEncodeServiceUrl(getBoolean(ConfigurationKeys.ENCODE_SERVICE_URL));
+            setScope(getString(ConfigurationKeys.SCOPE));
             
             initInternal(filterConfig);
         }
@@ -127,6 +131,10 @@ public abstract class AbstractCasFilter extends AbstractConfigurationFilter {
 
     public final void setEncodeServiceUrl(final boolean encodeServiceUrl) {
         this.encodeServiceUrl = encodeServiceUrl;
+    }
+
+    public final void setScope(final String scope) {
+        this.scope = scope;
     }
 
     protected Protocol getProtocol() {

@@ -18,9 +18,8 @@
  */
 package org.jasig.cas.client.validation;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
+
 import org.jasig.cas.client.authentication.AttributePrincipal;
 import org.jasig.cas.client.authentication.AttributePrincipalImpl;
 import org.jasig.cas.client.util.CommonUtils;
@@ -51,6 +50,8 @@ public final class AssertionImpl implements Assertion {
 
     /** The principal for which this assertion is valid for. */
     private final AttributePrincipal principal;
+
+    private final Set<String> scopes;
 
     /**
      * Constructs a new Assertion with a Principal of the supplied name, a valid from date of now, no valid until date, and no attributes.
@@ -89,12 +90,26 @@ public final class AssertionImpl implements Assertion {
      * @param attributes the key/value pairs for this attribute.
      */
     public AssertionImpl(final AttributePrincipal principal, final Date validFromDate, final Date validUntilDate,
-            final Date authenticationDate, final Map<String, Object> attributes) {
+                         final Date authenticationDate, final Map<String, Object> attributes) {
+        this(principal,validFromDate,validUntilDate,authenticationDate,attributes, new HashSet<String>());
+    }
+    /**
+     * Creates a new Assertion with the supplied principal, Assertion attributes, and start and valid until dates.
+     *
+     * @param principal the Principal to associate with the Assertion.
+     * @param validFromDate when the assertion is valid from.
+     * @param validUntilDate when the assertion is valid to.
+     * @param attributes the key/value pairs for this attribute.
+     * @param scopes paths secured by cas
+     */
+    public AssertionImpl(final AttributePrincipal principal, final Date validFromDate, final Date validUntilDate,
+            final Date authenticationDate, final Map<String, Object> attributes, Set<String> scopes) {
         this.principal = principal;
         this.validFromDate = validFromDate;
         this.validUntilDate = validUntilDate;
         this.attributes = attributes;
         this.authenticationDate = authenticationDate;
+        this.scopes = scopes;
 
         CommonUtils.assertNotNull(this.principal, "principal cannot be null.");
         CommonUtils.assertNotNull(this.validFromDate, "validFromDate cannot be null.");
@@ -124,6 +139,10 @@ public final class AssertionImpl implements Assertion {
     @Override
     public AttributePrincipal getPrincipal() {
         return this.principal;
+    }
+
+    public Set<String> getScopes() {
+        return scopes;
     }
 
     @Override

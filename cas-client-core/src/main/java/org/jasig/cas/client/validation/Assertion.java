@@ -20,6 +20,7 @@ package org.jasig.cas.client.validation;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 import java.util.Map;
 import org.jasig.cas.client.authentication.AttributePrincipal;
 
@@ -67,6 +68,13 @@ public interface Assertion extends Serializable {
      * @return the principal.
      */
     AttributePrincipal getPrincipal();
+
+    /**
+     * The set of scopes that have been authenticated for the current principal
+     *
+     * @return set of scopes
+     */
+    Set<String> getScopes();
 
     /**
      * Determines whether an Assertion is considered usable or not.  A naive implementation may just check the date validity.

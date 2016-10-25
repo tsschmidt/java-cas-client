@@ -71,6 +71,7 @@ public abstract class AbstractTicketValidationFilter extends AbstractCasFilter {
      */
     private boolean useSession = true;
 
+
     protected AbstractTicketValidationFilter(final Protocol protocol) {
         super(protocol);
     }
@@ -205,6 +206,8 @@ public abstract class AbstractTicketValidationFilter extends AbstractCasFilter {
                         constructServiceUrl(request, response));
 
                 logger.debug("Successfully authenticated user: {}", assertion.getPrincipal().getName());
+
+                assertion.getScopes().add(scope);
 
                 request.setAttribute(CONST_CAS_ASSERTION, assertion);
 
